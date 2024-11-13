@@ -16,6 +16,7 @@ const organizationSchema: Schema = new Schema({
 	resources: { type: [], required: true },
 	budget: { type: Number, required: true },
 });
+
 const iresourcesShema: Schema = new Schema({
 	name: { type: String, required: true },
 	amount: { type: Number, required: true },
