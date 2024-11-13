@@ -13,7 +13,7 @@ router.get('/', async (req: Request, res: Response): Promise<void> => {
 });
 
 
-router.patch('/patch/:id', async (req: Request, res: Response): Promise<void> => {
+router.patch('/buy/:id', async (req: Request, res: Response): Promise<void> => {
 	try {
 		const newitem = req.body
 		const editItem = await updateItem(newitem)

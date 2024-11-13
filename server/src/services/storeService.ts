@@ -1,6 +1,7 @@
 import { generateUserPassword } from '../../dist/helpers/bcrypt'
 import Store, { IMissiles } from '../models/misslies';
 
+// get all store
 const allStore = async () => {
 	try {
 		const allStore = Store.find();
@@ -10,9 +11,10 @@ const allStore = async () => {
 	}
 
 };
+// Function for buying weapons and updating the weapon at the user
 const updateItem = async (userData: IMissiles) => {
 	try {
-		const newStore = await Store.findByIdAndUpdate(userData, userData, { new: true })
+		
 	} catch (error) {
 		throw new Error("error to edit user")
 	}
