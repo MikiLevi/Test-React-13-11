@@ -1,7 +1,18 @@
 import exprees, { IRouter, Request, Response } from "express";
-import { login, logout } from "../services/userService";
+import { login, logout, register } from "../services/userService";
 
 const router: IRouter = exprees.Router();
+
+router.post("/register", async (req: Request, res: Response): Promise<void> => {
+	try{
+	  const newUser = req.body
+	  const addUser = register(newUser)
+	  res.json(addUser);
+
+	} catch (error: any) {
+	  console.error(error.message);
+	}
+  });
 
 router.post("/login", async (req: Request, res: Response): Promise<void> => {
 	try {

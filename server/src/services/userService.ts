@@ -2,6 +2,7 @@ import { CookieOptions, Response } from "express";
 import { comparePassword } from "../../helpers/bcrypt"
 import { generateAuthToken } from "../../helpers/jwt"
 import User from "../models/users"
+import { generateUserPassword } from "../../helpers/bcrypt"
 
 const cookieConfig: CookieOptions = {
 	httpOnly: true,          // הגנה מפני XSS - הקוקי לא נגיש דרך JavaScript בצד הלקוח
@@ -10,27 +11,37 @@ const cookieConfig: CookieOptions = {
 	maxAge: 24 * 60 * 60 * 1000  // תוקף של יום אחד (במילישניות)
 };
 interface userDTO {
-	email: string,
+	name: string,
 	password: string
 }
-interface LoginDTO {
-	_id: string,
-	isAdmin: boolean
-}
+export interface IUser {
+	userName: string;
+	password: string;
+	Organizations: string;
+	zone?: string;
+
+};
+
+const register = async (userData: IUser) => {
+    try {
+      const newUser = new User(userData);
+      newUser.password = generateUserPassword(newUser.password)
+      await newUser.save();
+      return newUser;
+    } catch (error) {
+      throw new Error("Failed to add new user");
+    }
+  };
 
 const login = async (user: userDTO, res: Response) => {
 	try {
-		const foundUser = await User.findOne({ email: user.email })
+		const foundUser = await User.findOne({ name: user.name })
 
 		if (!foundUser) return console.log("User not found")
 		const isPasswordCorrect = await comparePassword(user.password, foundUser.password)
 		if (!isPasswordCorrect) return console.log("Incorrect password or Email");
-
-		// const { _id, isAdmin } = foundUser
-		// const token = generateAuthToken({ _id, isAdmin });
-		// res.cookie('auth_token', token, cookieConfig);
-		// return { foundUser, token };
-
+return foundUser
+	
 	} catch (error) {
 		throw new Error("Failed to login")
 	}
@@ -50,5 +61,6 @@ const logout = (res: Response): void => {
 };
 export {
 	login,
-	logout
+	logout,
+	register
 }
