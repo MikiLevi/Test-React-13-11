@@ -1,11 +1,11 @@
 import express, { IRouter, Request, Response } from 'express'
-import { allUsers, updateUser } from '../services/dataService';
+import { allStore,  updateItem } from '../services/storeService';
 
 const router: IRouter = express.Router()
 
 router.get('/', async (req: Request, res: Response): Promise<void> => {
 	try {
-		const allUsersFromDb = await allUsers()
+		const allUsersFromDb = await allStore()
 		res.json(allUsersFromDb)
 	} catch (error: any) {
 		console.error(error.message);
@@ -15,8 +15,8 @@ router.get('/', async (req: Request, res: Response): Promise<void> => {
 
 router.patch('/patch/:id', async (req: Request, res: Response): Promise<void> => {
 	try {
-		const newUser = req.body
-		const editUser = await updateUser(newUser)
+		const newitem = req.body
+		const editItem = await updateItem(newitem)
 		res.json('Patch is Update')
 	} catch (error: any) {
 		console.error(error.message);
