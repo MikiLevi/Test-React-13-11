@@ -41,7 +41,7 @@ const resourcesSchema: Schema = new Schema({
 	name: { type: String, required: true },
 	amount: { type: Number, required: true },
 });
-
+ 
 const organizationSchema: Schema = new Schema({
 	name: { type: String, required: true },
 	resources: [resourcesSchema],

@@ -24,10 +24,16 @@ export interface IUser {
 
 const register = async (userData: IUser) => {
     try {
+		
       const newUser = new User(userData);
+	  
+	  
       newUser.password = generateUserPassword(newUser.password)
+
       await newUser.save();
+
       return newUser;
+
     } catch (error) {
       throw new Error("Failed to add new user");
     }
@@ -38,6 +44,7 @@ const login = async (user: userDTO, res: Response) => {
 		const foundUser = await User.findOne({ name: user.name })
 
 		if (!foundUser) return console.log("User not found")
+
 		const isPasswordCorrect = await comparePassword(user.password, foundUser.password)
 		if (!isPasswordCorrect) return console.log("Incorrect password or Email");
 return foundUser

@@ -4,7 +4,7 @@
   font-weight: 400;
   color-scheme: light dark;
   /* color: rgba(10, 10, 10, 0.87); */
-  background-image: url("https://did.li/Weapons");
+  /* background-image: url("https://did.li/Weapons"); */
   background-attachment: fixed;
   background-size: cover;
   background-clip: content-box;
@@ -56,3 +56,4 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+

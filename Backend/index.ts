@@ -6,11 +6,10 @@ import loadInitialData from "./helpers/loadInitialData";
 import cors from 'cors'
 
 
+
 const app: Express = express();
 
-
 loadInitialData();
-
 app.use(cors({
 	origin: "http://localhost:5173",
 	credentials: true
@@ -26,7 +25,6 @@ mongoose.connect(process.env.MONGO_URI || "", {
 	.catch((error) => {
 		console.error("error to concted", error);
 	})
-
 app.listen(process.env.PORT || 8000, () => {
 	console.log(`listening on: http://localhost:${process.env.PORT || 8000}`);
 });

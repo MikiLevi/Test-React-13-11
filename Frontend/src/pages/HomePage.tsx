@@ -1,71 +1,55 @@
 import { useContext, useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import {  NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../provider/UserProvider";
 
-const HomePage = () => {
+
+export default function HomePage() {
 	const { user, login } = useContext(AuthContext) ?? {};
 
 	const [password, setPassword] = useState("");
+	const [name, setName] = useState("");
 
 	const [error, setError] = useState("");
-	const [isLoading, setIsLoading] = useState(false);
+	
 
 	const navigate = useNavigate();
-	const location = useLocation();
+
 
 	useEffect(() => {
-		if (user && !isLoading) {
-			const redirectTo = location.state?.from || "/";
-			navigate(redirectTo, { replace: true });
-		}
-	}, [user, navigate, location, isLoading]);
+	console.log(user);
+	}, [user]);
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-
-		if (!"user".trim() || !password.trim()) {
-			setError("נא למלא את כל השדות");
-			return;
-		}
-
-		setError("");
-		setIsLoading(true);
-
 		try {
-			const success = await login!("user", password);
-			if (success) {
-				// המשתמש יועבר דרך useEffect
-			} else {
-				setError("שם משתמש או סיסמה לא נכונים");
-				setPassword("");
-			}
+			 await login!(name, password);
+	navigate("/");
 		} catch (err) {
 			setError("אירעה שגיאה בהתחברות. אנא נסה שנית");
 			setPassword("");
-		} finally {
-			setIsLoading(false);
-		}
-	};
-
-
+		
+	}
+}
 	return (
-		<div className="home-page">
-			<form onSubmit={handleSubmit}>
-				<div className="card-home">
-					<h2>Login 👋👋👋</h2>
-					<div className="form-group">
-						<label htmlFor="user">User Name: </label> <br />
-						<input required id="user" type="text" />
+		<>
+			<div className="home-page">
+				<form onSubmit={handleSubmit}>
+					<div className="card-home">
+						<h2>Login 👋👋👋</h2>
+						<div className="form-group">
+							<label htmlFor="user">User Name: </label> <br />
+							<input required id="user" type="text" onChange={(e) => setName(e.target.value)} />
+						</div>
+						<div className="from-group">
+							<label htmlFor="password">Password: </label> <br />
+							<input required id="password" type="text" onChange={(e) => setPassword(e.target.value)} />
+						</div>
+						<button type="submit">Login</button>
 					</div>
-					<div className="from-group">
-						<label htmlFor="password">Password: </label> <br />
-						<input required id="password" type="text" />
-					</div>
-					<button type="submit">Login</button>
-				</div>
-			</form>
-		</div>
+				</form>
+			</div>
+			<NavLink to={"/register"}>To Register</NavLink>
+		</>
 	)
 }
 
-export default HomePage

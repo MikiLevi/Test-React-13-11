@@ -1,9 +1,11 @@
 import React, { createContext, useState, ReactNode } from "react";
 
 interface User {
-  _id: string;
-  email: string;
-  name?: string;
+  id?: string;
+  name: string;
+  password: string;
+  Organization: string;
+  zone?: string;
 }
 
 interface AuthContextType {
@@ -12,32 +14,23 @@ interface AuthContextType {
   logout: () => Promise<void>;
 }
 
-export const AuthContext = createContext<AuthContextType | undefined>(
-  undefined
-);
-
+export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
 
   const login = async (name: string, password: string): Promise<boolean> => {
     try {
-      const response = await fetch("", {
+      
+      const response = await fetch("http://localhost:5555/user/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        credentials: "include", // חשוב בשביל קבלת הקוקיז
+        credentials: "include",
         body: JSON.stringify({ name, password }),
       });
 
-      if (!response.ok) {
-        return false;
-      }
-
       const data = await response.json();
-      if (data.foundUser) {
-        setUser(data.foundUser);
-        return true;
-      }
-      return false;
+    setUser(data);
+    return true;
     } catch (error) {
       console.error("Login failed", error);
       return false;
@@ -46,7 +39,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = async () => {
     try {
-      const response = await fetch("http://localhost:7700/auth/logout", {
+      const response = await fetch("http://localhost:5555/user/logout", {
         method: "POST",
         credentials: "include",
       });
@@ -59,9 +52,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  return (
-    <AuthContext.Provider value={{ user, login, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
-};
+
+    return (
+      <AuthContext.Provider value={{ user, login, logout }}>
+        {children}
+      </AuthContext.Provider>
+    );
+  }
+

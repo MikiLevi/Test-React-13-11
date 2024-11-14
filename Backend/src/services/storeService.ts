@@ -26,14 +26,16 @@ export const buyMissille = async (buyUser: buyUserDto) => {
 	const resources: any = org!.resources;
 	const resourceSingel: any = resources.find((m: any) => m.name === missile?.name)
 
+
 	if (resourceSingel) {
 		resourceSingel.amount++;
 		org!.Budget = org!.Budget - price!;
 		console.log(resourceSingel, org!.Budget);
+		await org!.save();
 
 
 		return buyUser;
 	} else {
 		console.log("User not found");
 	}
-};
+}; 
