@@ -6,7 +6,7 @@ interface buyUserDto {
 	missileName: string,
 	orgName: string
 }
-const allMissils = async () => {
+export const allMissils = async () => {
 	try {
 		const allMissils = Missile.find();
 		return allMissils;
@@ -16,29 +16,24 @@ const allMissils = async () => {
 };
 
 
-const buyMissille = async (buyUser: buyUserDto) => {
+export const buyMissille = async (buyUser: buyUserDto) => {
 	const missile = await Missile.findOne({ name: buyUser.missileName });
 	const org: any | null = await orgModel.findOne({ name: buyUser.orgName });
-	const pric: number | undefined = missile?.price;
+	const price: number | undefined = missile?.price;
 	const Budget: number | undefined = org?.budget;
 
-	if (Budget! < pric!) return console.log("you don't have enough money");
+	if (Budget! < price!) return console.log("you don't have enough money");
 	const resources: any = org!.resources;
 	const resourceSingel: any = resources.find((m: any) => m.name === missile?.name)
 
 	if (resourceSingel) {
 		resourceSingel.amount++;
-		org!.Budget = org!.Budget - pric!;
+		org!.Budget = org!.Budget - price!;
 		console.log(resourceSingel, org!.Budget);
 
 
 		return buyUser;
 	} else {
 		console.log("User not found");
-
 	}
 };
-
-
-
-export { allMissils, buyMissille };
