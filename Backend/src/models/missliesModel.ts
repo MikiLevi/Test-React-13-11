@@ -38,4 +38,4 @@ const missileSchema: Schema = new Schema({
 });
 
 
-export default mongoose.model<IMissile>("Missile", missileSchema); 
+export default mongoose.model<IMissile>("Missile", missileSchema,"Missile"); 

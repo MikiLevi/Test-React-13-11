@@ -1,7 +1,9 @@
+import { AuthContext } from "../provider/UserProvider"
 
 const RegisterPage = () => {
 	return (
 		<div>
+			<h1>Welcome {AuthContext?.user}</h1>
 			<div className="card-home">
 				<h2>Register 🤞🤞🤞</h2>
 				<div className="form-group">

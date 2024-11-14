@@ -1,21 +1,44 @@
-import Store, { IMissile } from '../models/missliesModel';
+import Missile, { IMissile } from "../models/missliesModel";
+import orgModel, { IOrg } from "../models/organizationsModel";
 
-// get all store
-const allStore = async () => {
-	try {
-		const allStore = Store.find();
-		return allStore;
-	} catch (error) {
-		throw new Error("Failed to find all users new user");
-	}
-
-};
-// Function for buying weapons and updating the weapon at the user
-const updateItem = async (userData: IMissile) => {
-	try {
-
-	} catch (error) {
-		throw new Error("error to edit user")
-	}
+interface buyUserDto {
+	name: string,
+	missileName: string,
+	orgName: string
 }
-export { allStore, updateItem };
+const allMissils = async () => {
+	try {
+		const allMissils = Missile.find();
+		return allMissils;
+	} catch (error) {
+		throw new Error("error to find users");
+	}
+};
+
+
+const buyMissille = async (buyUser: buyUserDto) => {
+	const missile = await Missile.findOne({ name: buyUser.missileName });
+	const org: any | null = await orgModel.findOne({ name: buyUser.orgName });
+	const pric: number | undefined = missile?.price;
+	const Budget: number | undefined = org?.budget;
+
+	if (Budget! < pric!) return console.log("you don't have enough money");
+	const resources: any = org!.resources;
+	const resourceSingel: any = resources.find((m: any) => m.name === missile?.name)
+
+	if (resourceSingel) {
+		resourceSingel.amount++;
+		org!.Budget = org!.Budget - pric!;
+		console.log(resourceSingel, org!.Budget);
+
+
+		return buyUser;
+	} else {
+		console.log("User not found");
+
+	}
+};
+
+
+
+export { allMissils, buyMissille };

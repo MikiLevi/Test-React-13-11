@@ -1,33 +1,67 @@
-import React, { useState } from "react";
+import React, { createContext, useState, ReactNode } from "react";
 
 interface User {
-  id?: string;
-  username: string;
+  _id: string;
   email: string;
-  age: number;
-  img: string;
-}
-interface Props {
-  children: React.ReactNode;
+  name?: string;
 }
 
-interface StarsProps {
-  stars: User[];
-  setStars: React.Dispatch<React.SetStateAction<User[]>>;
+interface AuthContextType {
+  user: User | null;
+  login: (name: string, password: string) => Promise<boolean>;
+  logout: () => Promise<void>;
 }
-export const starsContext = React.createContext<StarsProps>({
-  stars: [],
-  setStars: () => {},
-});
 
-export default function StarsProvider({ children }: Props) {
-  const [stars, setStars] = useState<User[]>([]);
+export const AuthContext = createContext<AuthContextType | undefined>(
+  undefined
+);
+
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const [user, setUser] = useState<User | null>(null);
+
+  const login = async (name: string, password: string): Promise<boolean> => {
+    try {
+      const response = await fetch("", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include", // חשוב בשביל קבלת הקוקיז
+        body: JSON.stringify({ name, password }),
+      });
+
+      if (!response.ok) {
+        return false;
+      }
+
+      const data = await response.json();
+      if (data.foundUser) {
+        setUser(data.foundUser);
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error("Login failed", error);
+      return false;
+    }
+  };
+
+  const logout = async () => {
+    try {
+      const response = await fetch("http://localhost:7700/auth/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        setUser(null);
+      }
+    } catch (error) {
+      console.error("Logout failed", error);
+    }
+  };
 
   return (
-    <>
-      <starsContext.Provider value={{ stars, setStars }}>
-        {children}
-      </starsContext.Provider>
-    </>
+    <AuthContext.Provider value={{ user, login, logout }}>
+      {children}
+    </AuthContext.Provider>
   );
-}
+};

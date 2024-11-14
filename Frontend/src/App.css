@@ -33,7 +33,7 @@ main {
   bottom: 0;
 }
 
-.home-page {
+form{
   display: flex;
   color: #00b8cc;
   flex-direction: column;
