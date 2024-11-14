@@ -1,6 +1,6 @@
 export default function Footer() {
 	return (
-		<footer>
+		<footer className="footer">
 			&copy; {new Date().getFullYear()} ✅❤️ כל השטויות שמורות   |   מיקי
 		</footer>
 	);

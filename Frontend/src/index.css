@@ -1,11 +1,10 @@
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+  /* line-height: 1.5; */
   font-weight: 400;
   color-scheme: light dark;
-  color: rgba(10, 10, 10, 0.87);
+  /* color: rgba(10, 10, 10, 0.87); */
   background-image: url("https://did.li/Weapons");
-  background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
   background-clip: content-box;
@@ -13,6 +12,9 @@
 
 body {
   display: flex;
+  justify-content: center;
+  grid-row: auto;
+  flex-direction: column;
   place-items: center;
   min-width: 320px;
   min-height: 90vh;
@@ -32,7 +34,7 @@ button {
 }
 
 button:hover {
-  color: cadetblue;
+  background-color: rgb(22, 232, 239);
 }
 
 button:focus,
