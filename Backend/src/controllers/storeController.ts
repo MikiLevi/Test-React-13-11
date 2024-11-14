@@ -17,7 +17,7 @@ router.patch('/buy/:id', async (req: Request, res: Response): Promise<void> => {
 	try {
 		const newitem = req.body
 		const editItem = await buyMissille(newitem)
-		res.json('Patch is Update')
+		res.json(editItem)
 	} catch (error: any) {
 		console.error(error.message);
 	}

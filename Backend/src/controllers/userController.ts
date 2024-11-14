@@ -16,9 +16,9 @@ router.post("/login", async (req: Request, res: Response): Promise<void> => {
 router.post("/register", async (req: Request, res: Response): Promise<void> => {
 	try {
 		const newUser = req.body
-		const addUser = register(newUser)
-		res.json(addUser);
-
+		// const addUser = register(newUser)
+		res.status(200).json({ message: "You have successfully registered" });
+		// res.json(addUser)
 	} catch (error: any) {
 		console.error(error.message);
 	}

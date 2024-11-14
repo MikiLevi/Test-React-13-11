@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
-import {  NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../provider/UserProvider";
+import PageHeader from "../components/PageHeader";
 
 
 export default function HomePage() {
@@ -10,28 +11,30 @@ export default function HomePage() {
 	const [name, setName] = useState("");
 
 	const [error, setError] = useState("");
-	
+
 
 	const navigate = useNavigate();
 
 
 	useEffect(() => {
-	console.log(user);
+		console.log(user);
 	}, [user]);
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		try {
-			 await login!(name, password);
-	navigate("/");
+			await login!(name, password);
+			navigate("/");
 		} catch (err) {
 			setError("אירעה שגיאה בהתחברות. אנא נסה שנית");
 			setPassword("");
-		
+
+		}
 	}
-}
 	return (
 		<>
+			<PageHeader title="Login pages" subtitle="welcome to Business card app" />
+
 			<div className="home-page">
 				<form onSubmit={handleSubmit}>
 					<div className="card-home">

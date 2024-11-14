@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PageHeader from "../components/PageHeader";
 
 const RegisterPage = () => {
 	const [error, setError] = useState("");
@@ -9,7 +10,7 @@ const RegisterPage = () => {
 
 	const register = async (name: string, password: string, org: string, loction: string): Promise<boolean | void> => {
 		try {
-			
+
 			const response = await fetch("http://localhost:5555/user/register", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
@@ -33,31 +34,33 @@ const RegisterPage = () => {
 		e.preventDefault();
 		await register(name, password, org, loction);
 		console.log(name, password, org, loction);
-		
+
 
 	}
 	return (
 		<div>
+			<PageHeader title="registr pages" subtitle="" />
+
 			<h1>Welcome</h1>
 			<form onSubmit={handleSubmit} >
 				<div className="card-home">
 					<h2>Register 🤞🤞🤞</h2>
 					<div className="form-group">
 						<label htmlFor="user">User Name: </label> <br />
-						<input required id="user" type="text" onChange={(e) => setName(e.target.value)} />
+						<input required id="user" value={name} type="text" onChange={(e) => setName(e.target.value)} />
 					</div>
 					<div className="from-group">
 						<label htmlFor="password">Password: </label> <br />
-						<input required id="password" type="text" onChange={(e) => setPassword(e.target.value)} />
+						<input required id="password" value={password} type="text" onChange={(e) => setPassword(e.target.value)} />
 					</div>
 					<div className="from-group">
 						<label htmlFor="org">Organization: </label> <br />
 						<select name="org" value={org} onChange={(e) => setOrg(e.target.value)}>
-							<option  value="IDF">IDF</option>
-							<option  value="Hezbollah">Hezbollah</option>
-							<option  value="Hamas">Hamas</option>
-							<option  value="Irgc">Irgc</option>
-							<option  value="Houthis">Houthis</option>
+							<option value="IDF">IDF</option>
+							<option value="Hezbollah">Hezbollah</option>
+							<option value="Hamas">Hamas</option>
+							<option value="Irgc">Irgc</option>
+							<option value="Houthis">Houthis</option>
 						</select>
 					</div>
 					<div className="from-group">
@@ -68,14 +71,12 @@ const RegisterPage = () => {
 							<option value="Center">Center</option>
 							<option value="West_Bank">West Bank</option>
 						</select>
-					</div> 
+					</div>
 					<button type="submit">Register</button>
 				</div>
 			</form>
 		</div >
 	)
 }
-
-
 
 export default RegisterPage

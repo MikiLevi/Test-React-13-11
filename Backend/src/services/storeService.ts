@@ -31,7 +31,7 @@ export const buyMissille = async (buyUser: buyUserDto) => {
 		resourceSingel.amount++;
 		org!.Budget = org!.Budget - price!;
 		console.log(resourceSingel, org!.Budget);
-		await org!.save();
+		org.save();
 
 
 		return buyUser;

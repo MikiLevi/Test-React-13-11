@@ -15,7 +15,7 @@ app.use(cors({
 	credentials: true
 }));
 
-app.use(express.json())
+app.use(express.json()) 
 app.use(router)
 
 mongoose.connect(process.env.MONGO_URI || "", {
